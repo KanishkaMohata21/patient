@@ -158,86 +158,87 @@ class _AssessmentTileState extends State<AssessmentTile> {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text(
-                      "Create Test",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-                    content: Container(
-                      width: 400,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
+                  return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+                    return AlertDialog(
+                      title: Text(
+                        "Create Test",
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "Select hand",
-                            style: TextStyle(fontSize: 18),
-                          ),
-                          CheckboxListTile(
-                            title: Text("Right"),
-                            value: _isRightHandSelected,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                _isRightHandSelected = value ?? false;
-                              });
-                            },
-                          ),
-                          CheckboxListTile(
-                            title: Text("Left"),
-                            value: _isLeftHandSelected,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                _isLeftHandSelected = value ?? false;
-                              });
-                            },
-                          ),
-                          SizedBox(height: 8),
-                          DropdownButtonFormField<String>(
-                            decoration: InputDecoration(
-                              labelText: 'Select the device',
-                              border: UnderlineInputBorder(),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                      content: Container(
+                        width: 400,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "Select hand",
+                              style: TextStyle(fontSize: 18),
                             ),
-                            value: _selectedDevice,
-                            items: <String>['Device 1', 'Device 2', 'Device 3']
-                                .map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _selectedDevice = newValue;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                    actions: [
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: _startTest,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
+                            CheckboxListTile(
+                              title: Text("Right"),
+                              value: _isRightHandSelected,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  _isRightHandSelected = value ?? false;
+                                });
+                              },
                             ),
-                            minimumSize: Size(double.infinity, 50),
-                          ),
-                          child: Text(
-                            "Start Test",
-                            style: TextStyle(color: Colors.white),
-                          ),
+                            CheckboxListTile(
+                              title: Text("Left"),
+                              value: _isLeftHandSelected,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  _isLeftHandSelected = value ?? false;
+                                });
+                              },
+                            ),
+                            SizedBox(height: 8),
+                            DropdownButtonFormField<String>(
+                              decoration: InputDecoration(
+                                labelText: 'Select the device',
+                                border: UnderlineInputBorder(),
+                              ),
+                              value: _selectedDevice,
+                              items: <String>['Device 1', 'Device 2', 'Device 3'].map((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (String? newValue) {
+                                setState(() {
+                                  _selectedDevice = newValue;
+                                });
+                              },
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  );
+                      actions: [
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: _startTest,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.zero,
+                              ),
+                              minimumSize: Size(double.infinity, 50),
+                            ),
+                            child: Text(
+                              "Start Test",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  });
                 },
               );
             },

@@ -1,27 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:antriksh/screens/AssesmentHistoryScreen.dart';
 import 'package:fl_chart/fl_chart.dart';
 
-class AssessmentDetailPage extends StatelessWidget {
+class AssessmentDetailPage extends StatefulWidget {
+  @override
+  _AssessmentDetailPageState createState() => _AssessmentDetailPageState();
+}
+
+class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
+  DateTime? selectedDateTime;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(254, 247, 255, 1), // rgba(254,247,255,255)
+      backgroundColor: Color.fromRGBO(254, 247, 255, 1),
       appBar: AppBar(
         title: Text('Assessment Detail'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            // Navigate back to the previous page
             Navigator.pop(context);
           },
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        foregroundColor: Colors.black, // for text and icon color
-        titleSpacing: 0, // Remove space between the back arrow and title
+        foregroundColor: Colors.black,
+        titleSpacing: 0,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0), // Padding around the entire page
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -60,13 +67,13 @@ class AssessmentDetailPage extends StatelessWidget {
             Text(
               'Start Date: No assessments found',
               style: TextStyle(
-                fontSize: 18, // Increased font size
+                fontSize: 18,
               ),
             ),
             Text(
               'End Date: No assessments found',
               style: TextStyle(
-                fontSize: 18, // Increased font size
+                fontSize: 18,
               ),
             ),
             SizedBox(height: 30),
@@ -74,10 +81,10 @@ class AssessmentDetailPage extends StatelessWidget {
             // Option Links Section
             GestureDetector(
               onTap: () {
-                // Navigate to AssessmentHistoryPage
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AssessmentHistoryPage()),
+                  MaterialPageRoute(
+                      builder: (context) => AssessmentHistoryPage()),
                 );
               },
               child: Text(
@@ -88,7 +95,7 @@ class AssessmentDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20), // Added space between options
+            SizedBox(height: 20),
             GestureDetector(
               onTap: () {
                 _showReminderDialog(context);
@@ -101,7 +108,7 @@ class AssessmentDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20), // Added space between options
+            SizedBox(height: 20),
             GestureDetector(
               onTap: () {
                 // Handle 'Share the PDF with doctor' action
@@ -131,24 +138,24 @@ class AssessmentDetailPage extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          contentPadding:
+              EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           content: StatefulBuilder(
             builder: (context, setState) {
-              DateTime? selectedDateTime;
-
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-             
-                        'No date selected',
+                    selectedDateTime == null
+                        ? 'No date selected'
+                        : 'Selected: ${selectedDateTime!.toString()}',
                     style: TextStyle(fontSize: 16),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 8),
                   SizedBox(
-                    width: double.infinity, // Take full width
+                    width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () async {
                         DateTime? pickedDate = await showDatePicker(
@@ -165,31 +172,34 @@ class AssessmentDetailPage extends StatelessWidget {
                           );
 
                           if (pickedTime != null) {
-                            selectedDateTime = DateTime(
-                              pickedDate.year,
-                              pickedDate.month,
-                              pickedDate.day,
-                              pickedTime.hour,
-                              pickedTime.minute,
-                            );
-                            setState(() {}); // Update the selected date and time
+                            setState(() {
+                              selectedDateTime = DateTime(
+                                pickedDate.year,
+                                pickedDate.month,
+                                pickedDate.day,
+                                pickedTime.hour,
+                                pickedTime.minute,
+                              );
+                            });
                           }
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black, // Background color
+                        backgroundColor: Colors.black,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.zero,
                         ),
-                        minimumSize: Size(double.infinity, 50), // Full width and increased height
+                        minimumSize: Size(double.infinity, 50),
                         textStyle: TextStyle(
-                          fontSize: 18, // Increased font size
-                          color: Colors.white, // Text color
+                          fontSize: 18,
+                          color: Colors.white,
                         ),
                       ),
                       child: Center(
-                        child: Text('Select Date and Time', style: TextStyle(color: Colors.white, fontSize: 18)), 
-                        
+                        child: Text(
+                          'Select Date and Time',
+                          style: TextStyle(color: Colors.white, fontSize: 18),
+                        ),
                       ),
                     ),
                   ),
@@ -202,7 +212,6 @@ class AssessmentDetailPage extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  // Handle submission here
                   Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
@@ -214,168 +223,13 @@ class AssessmentDetailPage extends StatelessWidget {
                 ),
                 child: Text(
                   "Submit",
-                  style: TextStyle(color: Colors.white, fontSize: 18), // Increased font size
+                  style: TextStyle(color: Colors.white, fontSize: 18),
                 ),
               ),
             ),
           ],
         );
       },
-    );
-  }
-}
-
-class AssessmentHistoryPage extends StatefulWidget {
-  @override
-  _AssessmentHistoryPageState createState() => _AssessmentHistoryPageState();
-}
-
-class _AssessmentHistoryPageState extends State<AssessmentHistoryPage> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 2, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Assessment History"),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: [
-            Tab(text: "Table"),
-            Tab(text: "Graph"),
-          ],
-        ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          // Table View
-          tableView(),
-          // Graph View
-          graphView(),
-        ],
-      ),
-    );
-  }
-
-  Widget tableView() {
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Right Hand Table", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          DataTable(
-            columns: [
-              DataColumn(label: Text("ID")),
-              DataColumn(label: Text("Trial 1 (Kg)")),
-              DataColumn(label: Text("Trial 2 (Kg)")),
-            ],
-            rows: [
-              DataRow(cells: [
-                DataCell(Text("58")),
-                DataCell(Text("1.497")),
-                DataCell(Text("5.401")),
-              ]),
-            ],
-          ),
-          SizedBox(height: 20),
-          Text("Left Hand Table", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          DataTable(
-            columns: [
-              DataColumn(label: Text("ID")),
-              DataColumn(label: Text("Trial 1 (Kg)")),
-              DataColumn(label: Text("Trial 2 (Kg)")),
-            ],
-            rows: [
-              DataRow(cells: [
-                DataCell(Text("60")),
-                DataCell(Text("3.230")),
-                DataCell(Text("2.337")),
-              ]),
-              DataRow(cells: [
-                DataCell(Text("56")),
-                DataCell(Text("1.670")),
-                DataCell(Text("1.646")),
-              ]),
-            ],
-          ),
-          SizedBox(height: 20),
-          Text("Latest Test", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          DataTable(
-            columns: [
-              DataColumn(label: Text("RH")),
-              DataColumn(label: Text("LH")),
-              DataColumn(label: Text("Difference")),
-            ],
-            rows: [
-              DataRow(cells: [
-                DataCell(Text("3.93")),
-                DataCell(Text("2.38")),
-                DataCell(Text("-1.55")),
-              ]),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget graphView() {
-    return SingleChildScrollView(
-      padding: EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Right Hand Graph", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          SizedBox(
-            height: 200,
-            child: LineChart(LineChartData(
-              gridData: FlGridData(show: true),
-              borderData: FlBorderData(show: true),
-              lineBarsData: [
-                LineChartBarData(
-                  isCurved: true,
-                  color: Colors.red,
-                  spots: [
-                    FlSpot(1, 3.0),
-                    FlSpot(2, 3.5),
-                    FlSpot(3, 3.9),
-                  ],
-                  dotData: FlDotData(show: true),
-                )
-              ],
-            )),
-          ),
-          SizedBox(height: 20),
-          Text("Latest Test Graph", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          SizedBox(
-            height: 200,
-            child: BarChart(BarChartData(
-              barGroups: [
-                BarChartGroupData(x: 1, barRods: [
-                  BarChartRodData(toY: 5, color: Colors.green),
-                ]),
-                BarChartGroupData(x: 2, barRods: [
-                  BarChartRodData(toY: 5, color: Colors.red),
-                ]),
-              ],
-            )),
-          ),
-        ],
-      ),
     );
   }
 }
