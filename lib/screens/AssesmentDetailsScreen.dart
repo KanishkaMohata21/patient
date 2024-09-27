@@ -29,99 +29,148 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            // BMI Section
-            RichText(
-              text: TextSpan(
-                text: 'BMI - ',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-                children: <TextSpan>[
-                  TextSpan(
-                    text: '24.97',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.black,
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              // BMI Section
+              RichText(
+                text: TextSpan(
+                  text: 'BMI - ',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: '24.97',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.black,
+                      ),
                     ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20),
+
+              // Pressure Reading Section as Table with Borders
+              Table(
+                border: TableBorder.all(
+                  color: Colors.black, // Border color
+                  width: 1.0, // Border width
+                ),
+                columnWidths: {
+                  0: FlexColumnWidth(2),
+                  1: FlexColumnWidth(3),
+                },
+                children: [
+                  TableRow(
+                    decoration: BoxDecoration(
+                    ),
+                    children: [
+                      TableCell(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                          child: Text(
+                            'Start Date:',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                      TableCell(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                          child: Text(
+                            'No assessments found',
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  TableRow(
+                    decoration: BoxDecoration(
+                      color: Colors.white, // Row background color
+                    ),
+                    children: [
+                      TableCell(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                          child: Text(
+                            'End Date:',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                      TableCell(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                          child: Text(
+                            'No assessments found',
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ),
-            SizedBox(height: 20),
+              SizedBox(height: 30),
 
-            // Pressure Reading Section
-            Text(
-              'Pressure Reading',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Start Date: No assessments found',
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            ),
-            Text(
-              'End Date: No assessments found',
-              style: TextStyle(
-                fontSize: 18,
-              ),
-            ),
-            SizedBox(height: 30),
-
-            // Option Links Section
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AssessmentHistoryPage()),
-                );
-              },
-              child: Text(
-                'See Assessment History',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
+              // Option Links Section as Buttons
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AssessmentHistoryPage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  ),
+                  minimumSize: Size(double.infinity, 50),
+                ),
+                child: Text(
+                  'See Assessment History',
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            GestureDetector(
-              onTap: () {
-                _showReminderDialog(context);
-              },
-              child: Text(
-                'Set Daily Reminder',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  _showReminderDialog(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blue,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  ),
+                  minimumSize: Size(double.infinity, 50),
+                ),
+                child: Text(
+                  'Set Daily Reminder',
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            GestureDetector(
-              onTap: () {
-                // Handle 'Share the PDF with doctor' action
-              },
-              child: Text(
-                'Share the PDF with doctor',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ],
+              SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );
@@ -185,7 +234,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
+                        backgroundColor: Colors.blue,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.zero,
                         ),
@@ -215,7 +264,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                   Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
+                  backgroundColor: Colors.blue,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.zero,
                   ),

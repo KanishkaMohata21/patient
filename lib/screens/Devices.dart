@@ -7,7 +7,7 @@ class Devices extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color.fromRGBO(254, 247, 255, 1), // Custom background color
       appBar: AppBar(
-        title: Center(child: Text('Antriksh')),
+        title: Center(child: Text('VITAL STEP')),
         automaticallyImplyLeading: true, // Re-enabling back button
         leading: IconButton(
           icon: Icon(Icons.arrow_back),

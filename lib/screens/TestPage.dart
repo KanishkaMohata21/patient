@@ -1,3 +1,4 @@
+import 'package:antriksh/screens/TestResultPage.dart';
 import 'package:flutter/material.dart';
 
 
@@ -36,7 +37,11 @@ class TestPage extends StatelessWidget {
             SizedBox(height: 80), // Increased the space between text and button
             ElevatedButton(
               onPressed: () {
-                // Handle "See Test Results" button action
+                // Navigate to TestResultsPage
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TestResultsPage()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
@@ -62,3 +67,4 @@ class TestPage extends StatelessWidget {
     );
   }
 }
+

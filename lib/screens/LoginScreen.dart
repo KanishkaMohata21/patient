@@ -8,6 +8,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
+  String? _selectedRole; // To store the selected role (Patient or Doctor)
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             SizedBox(height: 20),
             Text(
-              'ANTRIKSH',
+              'VITAL STEP',
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
@@ -41,7 +42,40 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             SizedBox(height: 50), // Increased space between ANTRIKSH and the form
-            // Email Label
+            // Dropdown for selecting role
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Login As',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black, // Label color
+                ),
+              ),
+            ),
+            SizedBox(height: 5),
+            DropdownButtonFormField<String>(
+              value: _selectedRole,
+              hint: Text('Select Role'),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Color.fromRGBO(242, 242, 242, 1),
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+              ),
+              items: <String>['Patient', 'Doctor'].map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  _selectedRole = newValue;
+                });
+              },
+            ),
+                        SizedBox(height: 20),
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -102,6 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: ElevatedButton(
                 onPressed: () {
                   // Handle login action
+                  // You can also use _selectedRole here to perform role-specific actions
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromRGBO(44, 40, 177, 1), // Button color

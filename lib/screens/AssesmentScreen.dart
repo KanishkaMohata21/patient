@@ -4,12 +4,6 @@ import 'package:antriksh/screens/Devices.dart'; // Import other required screens
 import 'package:antriksh/screens/AssesmentDetailsScreen.dart'; // Import other required screens
 import 'package:antriksh/widgets/bottomNavigationBar.dart';
 
-import 'package:flutter/material.dart';
-import 'package:antriksh/screens/TestPage.dart';
-import 'package:antriksh/screens/Devices.dart'; // Import other required screens
-import 'package:antriksh/screens/AssesmentDetailsScreen.dart'; // Import other required screens
-import 'package:antriksh/widgets/bottomNavigationBar.dart';
-
 class AssessmentPage extends StatefulWidget {
   @override
   _AssessmentPageState createState() => _AssessmentPageState();
@@ -54,30 +48,34 @@ class _AssessmentPageState extends State<AssessmentPage> {
           ),
         ],
       ),
-      body: Container(
-        color: Color.fromARGB(255, 248, 247, 252), // Background of content area
-        padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-          itemCount: assessments.length,
-          itemBuilder: (context, index) {
-            return GestureDetector(
-              onTap: () {
-                // Navigate to AssessmentDetailsPage on tap
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AssessmentDetailPage(),
+      body: Stack(
+        children: [
+          Container(
+            color: Color.fromARGB(255, 248, 247, 252), // Background of content area
+            padding: const EdgeInsets.all(16.0),
+            child: ListView.builder(
+              itemCount: assessments.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    // Navigate to AssessmentDetailsPage on tap
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AssessmentDetailPage(),
+                      ),
+                    );
+                  },
+                  child: AssessmentTile(
+                    number: index + 1,
+                    title: assessments[index]['title']!,
+                    details: assessments[index]['details']!,
                   ),
                 );
               },
-              child: AssessmentTile(
-                number: index + 1,
-                title: assessments[index]['title']!,
-                details: assessments[index]['details']!,
-              ),
-            );
-          },
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -87,6 +85,58 @@ class _AssessmentPageState extends State<AssessmentPage> {
     {"title": "Monthly", "details": "sitting | 12 | Active"},
     {"title": "Daily", "details": "sitting | 12 | Active"},
   ];
+
+  // Method to show the Create Assessment Dialog
+  void _showCreateAssessmentDialog(BuildContext context) {
+    TextEditingController _titleController = TextEditingController();
+    TextEditingController _detailsController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Create Assessment"),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _titleController,
+                decoration: InputDecoration(
+                  labelText: "Title",
+                ),
+              ),
+              TextField(
+                controller: _detailsController,
+                decoration: InputDecoration(
+                  labelText: "Details",
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  assessments.add({
+                    "title": _titleController.text,
+                    "details": _detailsController.text,
+                  });
+                });
+                Navigator.of(context).pop();
+              },
+              child: Text("Create"),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Cancel"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
 class AssessmentTile extends StatefulWidget {

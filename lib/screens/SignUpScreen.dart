@@ -67,7 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(height: 40),
               Center(
                 child: Text(
-                  'ANTRIKSH',
+                  'VITAL STEP',
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
