@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:antriksh/screens/AssesmentHistoryScreen.dart';
-import 'package:fl_chart/fl_chart.dart';
-
+import 'package:flutter/material.dart';
 class AssessmentDetailPage extends StatefulWidget {
   @override
   _AssessmentDetailPageState createState() => _AssessmentDetailPageState();
@@ -9,6 +7,14 @@ class AssessmentDetailPage extends StatefulWidget {
 
 class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
   DateTime? selectedDateTime;
+
+  // Sample remarks data
+  List<Map<String, String>> remarks = [
+    {"text": "Do daily exercise", "date": "04/07/2019 18:23"},
+    {"text": "Improvement noted. Continue", "date": "02/07/2019 18:23"},
+  ];
+
+  TextEditingController _remarkController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,153 +35,208 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              // BMI Section
-              RichText(
-                text: TextSpan(
-                  text: 'BMI - ',
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            // BMI Section
+            RichText(
+              text: TextSpan(
+                text: 'BMI - ',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: '24.97',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black,
+                    ),
                   ),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: '24.97',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.normal,
-                        color: Colors.black,
+                ],
+              ),
+            ),
+            SizedBox(height: 20),
+
+            // Pressure Reading Section as Table with Borders
+            Table(
+              border: TableBorder.all(
+                color: Colors.black, // Border color
+                width: 1.0, // Border width
+              ),
+              columnWidths: {
+                0: FlexColumnWidth(2),
+                1: FlexColumnWidth(3),
+              },
+              children: [
+                TableRow(
+                  children: [
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 16.0),
+                        child: Text(
+                          'Start Date:',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 16.0),
+                        child: Text(
+                          'No assessments found',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
                       ),
                     ),
                   ],
                 ),
-              ),
-              SizedBox(height: 20),
-
-              // Pressure Reading Section as Table with Borders
-              Table(
-                border: TableBorder.all(
-                  color: Colors.black, // Border color
-                  width: 1.0, // Border width
+                TableRow(
+                  children: [
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 16.0),
+                        child: Text(
+                          'End Date:',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 16.0),
+                        child: Text(
+                          'No assessments found',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                columnWidths: {
-                  0: FlexColumnWidth(2),
-                  1: FlexColumnWidth(3),
-                },
-                children: [
-                  TableRow(
-                    decoration: BoxDecoration(
-                    ),
-                    children: [
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                          child: Text(
-                            'Start Date:',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                          child: Text(
-                            'No assessments found',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  TableRow(
-                    decoration: BoxDecoration(
-                      color: Colors.white, // Row background color
-                    ),
-                    children: [
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                          child: Text(
-                            'End Date:',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                          child: Text(
-                            'No assessments found',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 30),
+              ],
+            ),
+            SizedBox(height: 30),
 
-              // Option Links Section as Buttons
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AssessmentHistoryPage()),
+            // Option Links Section as Buttons
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AssessmentHistoryPage()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.zero,
+                ),
+                minimumSize: Size(double.infinity, 50),
+              ),
+              child: Text(
+                'See Assessment History',
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            ),
+            SizedBox(height: 20),
+
+            ElevatedButton(
+              onPressed: () {
+                _showReminderDialog(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.zero,
+                ),
+                minimumSize: Size(double.infinity, 50),
+              ),
+              child: Text(
+                'Set Daily Reminder',
+                style: TextStyle(color: Colors.white, fontSize: 16),
+              ),
+            ),
+
+            SizedBox(height: 20),
+
+            // Remarks Section
+            Text(
+              'Remarks',
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            SizedBox(height: 10),
+
+            // Using Flexible for ListView.builder
+            Flexible(
+              child: ListView.builder(
+                itemCount: remarks.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // The card for the remark
+                        Container(
+                          width: double.infinity, // Full width
+                          decoration: BoxDecoration(
+                            color: Colors.purple[50],
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 20.0, horizontal: 16.0), // Increased padding for height
+                          child: Text(
+                            remarks[index]['text']!,
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        SizedBox(height: 4), // Space between card and date
+
+                        // Row to align the date to the right
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              remarks[index]['date']!,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   );
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
-                  ),
-                  minimumSize: Size(double.infinity, 50),
-                ),
-                child: Text(
-                  'See Assessment History',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
               ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  _showReminderDialog(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
-                  ),
-                  minimumSize: Size(double.infinity, 50),
-                ),
-                child: Text(
-                  'Set Daily Reminder',
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                ),
-              ),
-              SizedBox(height: 20),
-            ],
-          ),
+            ),
+            SizedBox(height: 20),
+          ],
         ),
       ),
     );
   }
 
+  // Function to show the reminder dialog
   void _showReminderDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -187,8 +248,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
           ),
-          contentPadding:
-              EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           content: StatefulBuilder(
             builder: (context, setState) {
               return Column(
@@ -214,7 +274,7 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                           lastDate: DateTime(2101),
                         );
 
-                        if (pickedDate != null) {
+                        if (pickedDate != null && pickedDate != selectedDateTime) {
                           TimeOfDay? pickedTime = await showTimePicker(
                             context: context,
                             initialTime: TimeOfDay.now(),
@@ -235,21 +295,8 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
-                        ),
-                        minimumSize: Size(double.infinity, 50),
-                        textStyle: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
                       ),
-                      child: Center(
-                        child: Text(
-                          'Select Date and Time',
-                          style: TextStyle(color: Colors.white, fontSize: 18),
-                        ),
-                      ),
+                      child: Text('Select Date and Time'),
                     ),
                   ),
                 ],
@@ -257,24 +304,11 @@ class _AssessmentDetailPageState extends State<AssessmentDetailPage> {
             },
           ),
           actions: [
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
-                  ),
-                  minimumSize: Size(double.infinity, 50),
-                ),
-                child: Text(
-                  "Submit",
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
-              ),
+            TextButton(
+              child: Text('Close'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
           ],
         );

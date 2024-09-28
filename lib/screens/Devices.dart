@@ -71,12 +71,31 @@ class Devices extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Add Device',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18.0,
-                      ),
+                    // Row containing "Add Device" and "Help!" text
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Add Device',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            // Show help dialog when "Help!" is clicked
+                            _showHelpDialog(context);
+                          },
+                          child: Text(
+                            'help!',
+                            style: TextStyle(
+                              color: Color(0xFF0101D3), // Color #0101D3
+                              fontSize: 16.0
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(height: 10.0),
                     TextField(
@@ -135,6 +154,26 @@ class Devices extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void _showHelpDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Help'),
+          content: Text('To add a device, please enter the Device Code and Device Name, then click "Save Device". If you have any issues, contact support.'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
